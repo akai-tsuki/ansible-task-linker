@@ -1,9 +1,12 @@
 .vscode/**
 .vscode-test/**
+.claude/**
+.github/**
 src/**
 test/**
 out/test/**
 node_modules/**
+docs/**
 .gitignore
 tsconfig.json
 **/*.map
