@@ -1,0 +1,45 @@
+{
+  "name": "ansible-task-linker",
+  "displayName": "Ansible Task Linker",
+  "description": "Navigate import_tasks, include_tasks, import_role links in Ansible Playbooks",
+  "version": "0.1.0",
+  "publisher": "tsuzu",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tsuzu/ansible-task-linker"
+  },
+  "keywords": [
+    "ansible",
+    "yaml",
+    "playbook",
+    "tasks",
+    "navigation"
+  ],
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onLanguage:yaml"
+  ],
+  "main": "./out/src/extension.js",
+  "contributes": {},
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "test": "node ./out/test/runTests.js"
+  },
+  "devDependencies": {
+    "@types/glob": "^8.1.0",
+    "@types/mocha": "^10.0.0",
+    "@types/node": "18.x",
+    "@types/vscode": "^1.80.0",
+    "@vscode/test-electron": "^2.3.0",
+    "mocha": "^10.0.0",
+    "typescript": "^5.0.0"
+  }
+}
