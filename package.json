@@ -2,7 +2,7 @@
   "name": "ansible-task-linker",
   "displayName": "Ansible Task Linker",
   "description": "Navigate import_tasks, include_tasks, import_role links in Ansible Playbooks",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "akai-tsuki",
   "license": "MIT",
   "repository": {
