@@ -15,11 +15,24 @@ export async function resolveTaskPath(
     filePath: string
 ): Promise<vscode.Uri | undefined> {
     const documentDir = path.dirname(documentUri.fsPath);
+
+    // 1. Try the path as written (relative to the document directory)
     const resolved = path.resolve(documentDir, filePath);
     const uri = vscode.Uri.file(resolved);
     if (await fileExists(uri)) {
         return uri;
     }
+
+    // 2. If the path has no directory component, Ansible also searches in tasks/
+    //    e.g. `include_tasks: check.yml` → tasks/check.yml
+    if (!filePath.includes('/') && !filePath.includes('\\')) {
+        const tasksResolved = path.resolve(documentDir, 'tasks', filePath);
+        const tasksUri = vscode.Uri.file(tasksResolved);
+        if (await fileExists(tasksUri)) {
+            return tasksUri;
+        }
+    }
+
     return undefined;
 }
 
