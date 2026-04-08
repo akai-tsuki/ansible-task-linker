@@ -1,12 +1,18 @@
 import * as vscode from 'vscode';
-import { AnsibleLinkProvider } from './providers/ansibleLinkProvider';
+import { AnsibleDocumentLinkProvider } from './providers/ansibleDocumentLinkProvider';
+import { AnsibleDefinitionProvider } from './providers/ansibleDefinitionProvider';
 
 export function activate(context: vscode.ExtensionContext) {
-    const provider = new AnsibleLinkProvider();
+    const yamlSelector = { language: 'yaml' };
+
     context.subscriptions.push(
         vscode.languages.registerDocumentLinkProvider(
-            { language: 'yaml' },
-            provider
+            yamlSelector,
+            new AnsibleDocumentLinkProvider()
+        ),
+        vscode.languages.registerDefinitionProvider(
+            yamlSelector,
+            new AnsibleDefinitionProvider()
         )
     );
 }
