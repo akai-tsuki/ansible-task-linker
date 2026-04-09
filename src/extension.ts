@@ -3,15 +3,21 @@ import { AnsibleDocumentLinkProvider } from './providers/ansibleDocumentLinkProv
 import { AnsibleDefinitionProvider } from './providers/ansibleDefinitionProvider';
 
 export function activate(context: vscode.ExtensionContext) {
-    const yamlSelector = { language: 'yaml' };
+    // Register for both 'yaml' and 'ansible' language IDs.
+    // The Red Hat Ansible extension (ansible.vscode-ansible) assigns the
+    // language ID 'ansible' to playbook files, so we must cover both.
+    const selectors: vscode.DocumentSelector = [
+        { language: 'yaml' },
+        { language: 'ansible' },
+    ];
 
     context.subscriptions.push(
         vscode.languages.registerDocumentLinkProvider(
-            yamlSelector,
+            selectors,
             new AnsibleDocumentLinkProvider()
         ),
         vscode.languages.registerDefinitionProvider(
-            yamlSelector,
+            selectors,
             new AnsibleDefinitionProvider()
         )
     );

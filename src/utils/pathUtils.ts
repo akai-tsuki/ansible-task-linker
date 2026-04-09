@@ -1,9 +1,10 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
+import * as fs from 'fs';
 
-async function fileExists(uri: vscode.Uri): Promise<boolean> {
+async function fileExists(fsPath: string): Promise<boolean> {
     try {
-        await vscode.workspace.fs.stat(uri);
+        await fs.promises.access(fsPath, fs.constants.F_OK);
         return true;
     } catch {
         return false;
@@ -24,17 +25,15 @@ export async function resolveTaskPath(
 ): Promise<vscode.Uri | undefined> {
     const documentDir = path.dirname(documentUri.fsPath);
 
-    const direct = vscode.Uri.file(path.resolve(documentDir, filePath));
-    if (await fileExists(direct)) {
-        return direct;
+    const directPath = path.resolve(documentDir, filePath);
+    if (await fileExists(directPath)) {
+        return vscode.Uri.file(directPath);
     }
 
     if (!filePath.includes('/') && !filePath.includes('\\')) {
-        const viaTasks = vscode.Uri.file(
-            path.resolve(documentDir, 'tasks', filePath)
-        );
-        if (await fileExists(viaTasks)) {
-            return viaTasks;
+        const viaTasksPath = path.resolve(documentDir, 'tasks', filePath);
+        if (await fileExists(viaTasksPath)) {
+            return vscode.Uri.file(viaTasksPath);
         }
     }
 
@@ -49,8 +48,8 @@ export async function resolvePlaybookPath(
     filePath: string
 ): Promise<vscode.Uri | undefined> {
     const documentDir = path.dirname(documentUri.fsPath);
-    const uri = vscode.Uri.file(path.resolve(documentDir, filePath));
-    return (await fileExists(uri)) ? uri : undefined;
+    const resolvedPath = path.resolve(documentDir, filePath);
+    return (await fileExists(resolvedPath)) ? vscode.Uri.file(resolvedPath) : undefined;
 }
 
 /**
@@ -90,9 +89,9 @@ export async function resolveRolePath(
         : ['main.yml', 'main.yaml'];
 
     for (const name of candidates) {
-        const uri = vscode.Uri.file(path.join(tasksDir, name));
-        if (await fileExists(uri)) {
-            return uri;
+        const resolvedPath = path.join(tasksDir, name);
+        if (await fileExists(resolvedPath)) {
+            return vscode.Uri.file(resolvedPath);
         }
     }
 
