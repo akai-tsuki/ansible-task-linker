@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [0.1.4] - 2026-04-11
 
 ### Added
 - `vars_files` directive support — each scalar entry in the list becomes a clickable link and a Go to Definition target, resolved relative to the current file
