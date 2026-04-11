@@ -21,6 +21,7 @@ const ROLE_DIRECTIVES = new Set<string>([
  *   - include_tasks / import_tasks  (scalar file path)
  *   - import_playbook               (scalar file path)
  *   - include_role  / import_role   (map with `name` and optional `tasks_from`)
+ *   - vars_files                    (sequence of scalar file paths)
  *
  * Documents with hard YAML parse errors are skipped entirely.
  * Values containing Jinja2 expressions are silently ignored.
@@ -105,6 +106,8 @@ function collectFromMap(
             if (ref) {
                 out.push(ref);
             }
+        } else if (directive === 'vars_files') {
+            extractVarsFilesReferences(pair.value, document, out);
         } else {
             // Recurse into nested sequences/maps (e.g. play-level `tasks:` key)
             if (yaml.isNode(pair.value)) {
@@ -143,6 +146,25 @@ function extractTaskReference(
         sourceRange,
         rawValue,
     };
+}
+
+function extractVarsFilesReferences(
+    valueNode: unknown,
+    document: vscode.TextDocument,
+    out: AnsibleReference[]
+): void {
+    if (!yaml.isSeq(valueNode)) {
+        return;
+    }
+    for (const item of valueNode.items) {
+        if (!yaml.isScalar(item)) {
+            continue;
+        }
+        const ref = extractTaskReference('vars_files', item, document);
+        if (ref) {
+            out.push(ref);
+        }
+    }
 }
 
 function extractRoleReference(

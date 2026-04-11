@@ -8,6 +8,7 @@ A VSCode extension that provides clickable navigation links and Go to Definition
 - **`import_playbook`**: Click the file path to navigate to the referenced playbook file
 - **`import_role` / `include_role`**: Click the role name to navigate to `roles/<name>/tasks/main.yml`
 - **`tasks_from`**: When `tasks_from` is specified, the role link resolves to that task file instead of `main.yml`
+- **`vars_files`**: Each entry in the list becomes a clickable link to the referenced variable file
 - **Go to Definition** (F12): Works on all of the above — navigate to the referenced file without clicking
 
 ## Supported Syntax
@@ -36,6 +37,12 @@ A VSCode extension that provides clickable navigation links and Go to Definition
 - include_role:
     name: common
     tasks_from: install
+
+# vars_files — each entry is clickable
+- hosts: all
+  vars_files:
+    - vars/common.yml
+    - "vars/secrets.yml"
 ```
 
 ## Limitations

@@ -1,5 +1,18 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+- `vars_files` directive support — each scalar entry in the list becomes a clickable link and a Go to Definition target, resolved relative to the current file
+
+## [0.1.3] - 2026-04-09
+
+### Added
+- `ansible` language ID support — providers now activate when the Red Hat Ansible extension (`ansible.vscode-ansible`) is installed alongside `yaml`
+
+### Changed
+- Replaced `vscode.workspace.fs.stat` with `fs.promises.access` for file-existence checks, removing URI-conversion overhead
+
 ## [0.1.2] - 2026-04-09
 
 ### Added

@@ -21,6 +21,7 @@ export async function resolveAnsibleReference(
             return resolveTaskPath(ref.sourceUri, ref.rawValue);
 
         case 'import_playbook':
+        case 'vars_files':
             return resolvePlaybookPath(ref.sourceUri, ref.rawValue);
 
         case 'include_role':

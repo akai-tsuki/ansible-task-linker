@@ -5,7 +5,8 @@ export type AnsibleReferenceKind =
     | 'import_tasks'
     | 'import_playbook'
     | 'include_role'
-    | 'import_role';
+    | 'import_role'
+    | 'vars_files';
 
 /**
  * A resolved reference extracted from an Ansible YAML document.
